@@ -6,6 +6,8 @@ a_string = "kelime veya cümle"
 a_float = 3.2
 # bool
 a_bool = True
+# tuple
+a_tuple = (1, 2, 3)
 
 # list
 a_list = [5, 3, 7, 5]
