@@ -21,3 +21,17 @@ for student_info in another_student_list:
             tosun_index = i
     print(student_info[tosun_index])
 """
+
+# Her ogrencinin ismi ve soyismi yan yana
+print("----------")
+
+for student in student_list:
+    print(student[0], student[1])
+
+print("----------")
+
+for i in range(2):
+    # len(another_student_list[0]) 3'e esit, listede kac tane isim oldugunu bulmamiza yariyor
+    for j in range(len(another_student_list[0])):
+        # print(another_student_list)
+        print(i, j)
