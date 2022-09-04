@@ -30,8 +30,11 @@ for student in student_list:
 
 print("----------")
 
-for i in range(2):
-    # len(another_student_list[0]) 3'e esit, listede kac tane isim oldugunu bulmamiza yariyor
-    for j in range(len(another_student_list[0])):
-        # print(another_student_list)
-        print(i, j)
+for j in range(len(another_student_list[0])):
+    # print(another_student_list)
+    print(another_student_list[0][j], another_student_list[1][j])
+
+
+L = ['a', ['bb', ['ccc', 'ddd'], 'ee', 'ff'], 'g', 'h']
+
+print(L[1][1][1])
