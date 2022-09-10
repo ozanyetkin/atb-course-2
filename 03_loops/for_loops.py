@@ -11,3 +11,8 @@ for i, number in enumerate(numbers):
 
 for i in range(10):
     print(i)
+
+for i in range(10):
+    print(i)
+    if i == 5:
+        break
