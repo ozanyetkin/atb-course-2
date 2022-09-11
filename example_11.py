@@ -43,20 +43,35 @@ max_F = average_grade - (max_grade - min_grade) / 2
 min_B = min_A - (min_A - max_F) / 3
 min_C = max_F + (min_A - max_F) / 3
 
+letter_counts = [["F", 0], ["D", 0], ["C", 0], ["B", 0], ["A", 0]]
 for student in student_list:
     if student[-1] <= max_F:
         student.append("F")
+        letter_counts[0][1] += 1
     elif max_F < student[-1] < min_C:
         student.append("D")
+        letter_counts[1][1] += 1
     elif min_C <= student[-1] < min_B:
         student.append("C")
+        letter_counts[2][1] += 1
     elif min_B <= student[-1] < min_A:
         student.append("B")
+        letter_counts[3][1] += 1
     else:
         student.append("A")
+        letter_counts[4][1] += 1
 
 # Lambda fonksiyonu icin dokumantasyondan kopya cektik
 # https://docs.python.org/3/howto/sorting.html
 student_list.sort(key=lambda student: student[-2])
 
 print(student_list)
+letters_list = []
+for student in student_list:
+    # round fonksiyonu dogrudan yuvarlar, asagi yuvarlamak icin floor(), yukari icin ceil()
+    bar_count = round(student[2] / 10)
+    print(student[0] + "\t" + student[1] + "\t" + (bar_count * "#"))
+    letters_list.append(student[-1])
+
+for letter, count in letter_counts:
+    print(letter + "\t" + count * "*")
