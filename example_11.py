@@ -55,4 +55,8 @@ for student in student_list:
     else:
         student.append("A")
 
+# Lambda fonksiyonu icin dokumantasyondan kopya cektik
+# https://docs.python.org/3/howto/sorting.html
+student_list.sort(key=lambda student: student[-2])
+
 print(student_list)
