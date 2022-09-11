@@ -1,0 +1,7 @@
+ahmet, yilmaz, 69
+ayse, ozturk, 25
+jale, keskin, 53
+mahmut, tuncer, 57
+ahmet, mutlu, 87
+cem, tansu, 93
+pinar, kutlu, 82
