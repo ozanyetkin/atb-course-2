@@ -22,6 +22,6 @@ def find_min_max(lst):
     """
     return lst[0], lst[-1] # lst[len(lst) - 1]
 
-list_min, list_max = find_min_max(["asd", "qwe", "zxc", "jkl"])
+list_min, list_max = find_min_max(numbers_list)
 print(list_min)
 print(list_max)
