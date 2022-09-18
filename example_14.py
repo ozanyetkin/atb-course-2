@@ -34,12 +34,11 @@ def okek(num_1, num_2, min_range, max_range):
         common_multiply *= prime
     
     remainder = min_range % common_multiply
-    common_numbers = []
-    for common_number in range(
-        min_range - remainder + common_multiply, 
-        max_range + common_multiply, 
-        common_multiply):
+    range_start = min_range - remainder + common_multiply
+    range_stop = max_range + common_multiply
 
+    common_numbers = []
+    for common_number in range(range_start, range_stop, common_multiply):
         common_numbers.append(common_number)
 
     return common_numbers
