@@ -43,4 +43,4 @@ def lcm_range(num_1, num_2, min_range, max_range):
 
     return common_numbers
 
-print(lcm_range(6, 10, 200, 300))
+# print(lcm_range(6, 10, 200, 300))
