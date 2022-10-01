@@ -1,3 +1,3 @@
-a = ["a", 3, 12]
-
-a[1]
+a = "qwdvkjblv"
+a = a.replace("v", "", 1)
+print(a)
