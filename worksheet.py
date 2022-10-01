@@ -1,3 +1,1 @@
-a = "qwdvkjblv"
-a = a.replace("v", "", 1)
-print(a)
+a = (1, 3, "a")
