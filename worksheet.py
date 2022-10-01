@@ -1,3 +1,3 @@
-import random
+a = ["a", 3, 12]
 
-print(random.randint(0, 5))
+a[1]
