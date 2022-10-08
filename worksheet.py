@@ -1,1 +1,4 @@
-a = (1, 3, "a")
+a = []
+
+for i in a:
+    print(i)
