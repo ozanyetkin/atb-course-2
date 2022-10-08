@@ -1,4 +1,3 @@
-a = []
-
-for i in a:
-    print(i)
+a = ["a"]
+for l in a:
+    print(l)
