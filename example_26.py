@@ -67,16 +67,21 @@ def walker(current_index, finish_index, maze, checkpoints = []):
     if current_index == finish_index:
         return True
     
-    neighbors = find_neighbors(current_index, maze)    
-    for neighbor in neighbors:
-        if neighbors[neighbor] == 0:
-            walker(neighbor, finish_index, maze)
-
+    neighbors = find_neighbors(current_index, maze)
+    
     if sum(neighbors.values()) < 3:
         checkpoints.append(current_index)
     elif sum(neighbors.values()) == 4:
         checkpoints.reverse()
-        walker(checkpoints.pop(), finish_index, maze)
+        if len(checkpoints) > 0:
+            return walker(checkpoints.pop(), finish_index, maze)
+        else:
+            return False
+
+    for neighbor in neighbors:
+        if neighbors[neighbor] == 0:
+            return walker(neighbor, finish_index, maze)
+
 
 # print(find_neighbors((4, 5), maze1))
 # print(find_neighbors((2, 7), maze1))
