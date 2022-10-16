@@ -36,15 +36,20 @@ maze3 = [
 
 def find_neighbors(cell_index, maze):
     neighbors = {}
+    # i kolon, j satir icin: https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Matrix.svg/247px-Matrix.svg.png
     i, j = cell_index
+    # kolon (i) sifira esit degilse disari tasma tehlikesi yok, i'den 1 cikararak ust komsuyu bulabilirim, j ayni kalacak
     if i != 0:
         neighbor_u = maze[i - 1][j]
+    # i sifira esitse, ustte komsum olamaz, o yuzden 1 kabul ediyorum
     else:
         neighbor_u = 1
     if j != 0:
         neighbor_l = maze[i][j - 1]
     else:
         neighbor_l = 1
+    # j (satir), haritanin ilk satirinin (maze[0]) uzunlugu - 1 (indexleri 0'dan saymaya basladigim icin) kadarsa en sagdayim demektir
+    # sagdaki komsuyu 1 kabul etmem gerekir, degilse eger komsuyu alabilirim
     if j != len(maze[0]) - 1:
         neighbor_r = maze[i][j + 1]
     else:
@@ -60,7 +65,8 @@ def find_neighbors(cell_index, maze):
     neighbors[(i + 1, j)] = neighbor_d
     return neighbors
 
-def walker(current_index, finish_index, maze, checkpoints = []):
+checkpoints = []
+def walker(current_index, finish_index, maze):
     i, j = current_index
     maze[i][j] = 1
     
