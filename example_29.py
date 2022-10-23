@@ -12,3 +12,22 @@ molecular_weights = {
 # Test case molecular weight of WEINAY is 884.9309999999998
 # calculate_mw("WEINAY")
 # calculate_mw(generate_ps(26))
+import random
+
+
+def calculate_mw(protein_sequence):
+    total_weight = 0
+    for protein in protein_sequence:
+        total_weight += molecular_weights[protein]
+    return total_weight
+
+print(calculate_mw("WEINAY"))
+
+def generate_ps(protein_length):
+    ps = ""
+    while len(ps) <= protein_length:
+        ps += aminoacids[random.randint(1, 20)]
+    return ps
+
+print(generate_ps(26))
+print(calculate_mw(generate_ps(26)))

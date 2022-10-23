@@ -1,2 +1,3 @@
-a = [i for i in range(5)]
-print(a)
+import random
+
+print(random.randint(1, 20))
