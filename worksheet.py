@@ -1,17 +1,2 @@
-a = {
-    (3, "glucose"): 456,
-    (3, "age"): 45,
-    (3, "bmi"): 415,
-}
-
-b = {
-    3: {
-        "glucose": 456,
-        "age": 45,
-        "bmi": 415
-    },
-}
-
-b[4] = {"12": 123}
-
-print(b[3])
+a = [i for i in range(5)]
+print(a)

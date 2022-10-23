@@ -7,11 +7,13 @@
 # kullanicidan yas araligi alarak bu yas araliginda olan herkesin tum degerlerini gosterecegiz
 from statistics import mean
 
+# Veriyi dosyadan okumak icin dosya ismini input olarak alan ve her satiri bir liste olarak veren fonksiyon
 def data_reader(file_name):
     with open(f'./inputs/{file_name}.txt') as file:
         lines = file.readlines()
     return lines
 
+# data_reader fonksiyonunun okudugu ham veriyi isleyerek dogru veri turunde ayri elemanlar olusturan fonksiyon
 def data_parser(raw_data, delimiter):
     parsed_data = []
     for data in raw_data:
@@ -26,10 +28,12 @@ def data_parser(raw_data, delimiter):
         parsed_data.append(converted)
     return parsed_data
 
+# data_reader ve data_parser kullanarak veriyi okuyup kolon isimlerini ve verileri ayristiriyorum
 diabetes_data = data_parser(data_reader("diabetes_data"), "\t")
 diabetes_headers = diabetes_data[0]
 diabetes_patients = diabetes_data[1:]
 
+# Verilen datanin icerisinden hangi kolonu istiyorsam sadece onu ayiklayip bana veren fonksiyon
 def feature_finder(feature):
     feature_matcher = {}
     for i, header in enumerate(diabetes_headers):
@@ -42,6 +46,7 @@ def feature_finder(feature):
 
 # patient_ages = feature_finder("Age")
 
+# Kullanicidan min ve max degerleri aldiktan sonra ilgili kolondaki veriyi kullanarak satirlari filtreleyen fonksiyon
 def row_filter(feature_column, min_value, max_value=9999):
     filtered_id = []
     for i, data in enumerate(feature_column):
@@ -50,7 +55,7 @@ def row_filter(feature_column, min_value, max_value=9999):
     return filtered_id
 
 # print(row_filter(patient_ages, 20, 30))
-
+# feature_finder ve row_filter fonksiyonlarini birlestirerek aradigim hastanin aradigim ozelligini bulmami saglayan fonksiyon
 def patient_finder(row_id, column):
     patient_column = feature_finder(column)
     patient_data = []
@@ -58,15 +63,18 @@ def patient_finder(row_id, column):
         patient_data.append(patient_column[id])
     return patient_data
 
+# Aradigim hastalarin id'lerinden o hastaya ait tum verileri almami sagliyor
 def all_finder(row_id):
     patient_data = []
     for id in row_id:
         patient_data.append(diabetes_patients[id])
     return patient_data
 
+# Listedeki NA degerlerini silen fonksiyon
 def remove_na(the_list):
    return [value for value in the_list if value != "NA"]
 
+# Listedeki NA degerlerini sayan fonksiyon
 def count_na(the_list):
     count = 0
     for value in the_list:
