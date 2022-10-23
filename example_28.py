@@ -28,11 +28,6 @@ def data_parser(raw_data, delimiter):
         parsed_data.append(converted)
     return parsed_data
 
-# data_reader ve data_parser kullanarak veriyi okuyup kolon isimlerini ve verileri ayristiriyorum
-diabetes_data = data_parser(data_reader("diabetes_data"), "\t")
-diabetes_headers = diabetes_data[0]
-diabetes_patients = diabetes_data[1:]
-
 # Verilen datanin icerisinden hangi kolonu istiyorsam sadece onu ayiklayip bana veren fonksiyon
 def feature_finder(feature):
     feature_matcher = {}
@@ -82,35 +77,39 @@ def count_na(the_list):
             count += 1
     return count
 
-# print(patient_finder(row_filter(patient_ages, 20, 30), "blood_pressure"))
+if __name__ == "__main__":
+    # data_reader ve data_parser kullanarak veriyi okuyup kolon isimlerini ve verileri ayristiriyorum
+    diabetes_data = data_parser(data_reader("diabetes_data"), "\t")
+    diabetes_headers = diabetes_data[0]
+    diabetes_patients = diabetes_data[1:]
+    
+    print(f"Toplam hasta sayisi: {len(diabetes_patients)}")
 
-print(f"Toplam hasta sayisi: {len(diabetes_patients)}")
+    patient_ages = feature_finder("Age")
+    above_55 = row_filter(patient_ages, 55)
+    bmi_above_55 = patient_finder(above_55, "Body_mass_index")
+    print(f"Yasi 55'ten buyuk olanlarin ortalama vucut kutle endeksi: {mean(remove_na(bmi_above_55))}")
 
-patient_ages = feature_finder("Age")
-above_55 = row_filter(patient_ages, 55)
-bmi_above_55 = patient_finder(above_55, "Body_mass_index")
-print(f"Yasi 55'ten buyuk olanlarin ortalama vucut kutle endeksi: {mean(remove_na(bmi_above_55))}")
+    glucose_values = feature_finder("glucose_concentration")
+    above_105 = row_filter(glucose_values, 105)
+    print(f"{len(above_105)} kisinin kandaki glikoz orani (glucose_concentration) 105'ten buyuk")
 
-glucose_values = feature_finder("glucose_concentration")
-above_105 = row_filter(glucose_values, 105)
-print(f"{len(above_105)} kisinin kandaki glikoz orani (glucose_concentration) 105'ten buyuk")
+    na_ages = count_na(feature_finder("Age"))
+    print(f"Yas listesinde {na_ages} tane NA var")
+    na_bmi = count_na(feature_finder("Body_mass_index"))
+    print(f"Vucut kutle endeksi listesinde {na_bmi} tane NA var")
 
-na_ages = count_na(feature_finder("Age"))
-print(f"Yas listesinde {na_ages} tane NA var")
-na_bmi = count_na(feature_finder("Body_mass_index"))
-print(f"Vucut kutle endeksi listesinde {na_bmi} tane NA var")
+    btw_20_30 = row_filter(patient_ages, 20, 30)
+    blood_pressures = patient_finder(btw_20_30, "blood_pressure")
+    serum_insulin = patient_finder(btw_20_30, "serum_insulin")
+    print(f"yasi 20 ve 30 arasinda olan kisilerin minimum kan basinci: {min(remove_na(blood_pressures))}")
+    print(f"yasi 20 ve 30 arasinda olan kisilerin maximum kan basinci: {max(remove_na(blood_pressures))}")
+    print(f"yasi 20 ve 30 arasinda olan kisilerin minimum serum insulin: {min(remove_na(serum_insulin))}")
+    print(f"yasi 20 ve 30 arasinda olan kisilerin maximum serum insulin: {max(remove_na(serum_insulin))}")
 
-btw_20_30 = row_filter(patient_ages, 20, 30)
-blood_pressures = patient_finder(btw_20_30, "blood_pressure")
-serum_insulin = patient_finder(btw_20_30, "serum_insulin")
-print(f"yasi 20 ve 30 arasinda olan kisilerin minimum kan basinci: {min(remove_na(blood_pressures))}")
-print(f"yasi 20 ve 30 arasinda olan kisilerin maximum kan basinci: {max(remove_na(blood_pressures))}")
-print(f"yasi 20 ve 30 arasinda olan kisilerin minimum serum insulin: {min(remove_na(serum_insulin))}")
-print(f"yasi 20 ve 30 arasinda olan kisilerin maximum serum insulin: {max(remove_na(serum_insulin))}")
+    min_age = int(input("minimum yas giriniz: "))
+    max_age = int(input("maximum yas giriniz: "))
 
-min_age = int(input("minimum yas giriniz: "))
-max_age = int(input("maximum yas giriniz: "))
-
-filtered_ids = row_filter(patient_ages, min_age, max_age)
-for data in all_finder(filtered_ids):
-    print(data)
+    filtered_ids = row_filter(patient_ages, min_age, max_age)
+    for data in all_finder(filtered_ids):
+        print(data)
