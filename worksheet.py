@@ -1,11 +1,11 @@
-def proper_answer(possible, answer):
-    while answer not in possible:
-        answer = input("Give me a proper answer: ")
-    return answer
+class Person:
+    def __init__(self) -> None:
+        pass
 
-proper = proper_answer(["y", "n"], answer=input("Give me an answer: "))
+class Child(Person):
+    def __init__(self) -> None:
+        super().__init__()
 
-if proper == "y":
-    print("HELL YES")
-if proper == "n":
-    print("FUCK NO")
+class Adult(Person):
+    def __init__(self) -> None:
+        super().__init__()
