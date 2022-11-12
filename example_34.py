@@ -96,6 +96,7 @@ class Square(Rectangle):
         super().__init__(side_1, side_1)
         self._name = "Square"
 
+
 shapelist = [
     # Polygon([1.0, 4.5, 3.1, 3.3]),
     Triangle(3.4, 5.3, 4.2),
