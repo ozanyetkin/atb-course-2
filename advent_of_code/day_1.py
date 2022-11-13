@@ -12,26 +12,27 @@ def data_reader(file_name):
         parsed_data.append(data)
     return parsed_data
 
-sonar_data = data_reader("day_1")
+if __name__ == "__main__":
+    sonar_data = data_reader("day_1")
 
-increase_count = 0
-i = 1
-for depth in sonar_data:
-    try:
-        if depth < sonar_data[i]:
-            increase_count += 1
-        i += 1
-    except IndexError:
-        pass
+    increase_count = 0
+    i = 1
+    for depth in sonar_data:
+        try:
+            if depth < sonar_data[i]:
+                increase_count += 1
+            i += 1
+        except IndexError:
+            pass
 
-print(increase_count)
+    print(increase_count)
 
-increase_count = 0
-for i in range(len(sonar_data)):
-    try:
-        if sum(sonar_data[i:i+3]) < sum(sonar_data[i+1:i+4]):
-            increase_count += 1
-    except IndexError:
-        pass
+    increase_count = 0
+    for i in range(len(sonar_data)):
+        try:
+            if sum(sonar_data[i:i+3]) < sum(sonar_data[i+1:i+4]):
+                increase_count += 1
+        except IndexError:
+            pass
 
-print(increase_count)
+    print(increase_count)
