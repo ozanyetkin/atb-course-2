@@ -13,8 +13,22 @@ for route in dive_route:
     if direction == "forward":
         ship_x += speed
     elif direction == "down":
-        ship_y -= speed
-    elif direction == "up":
         ship_y += speed
+    elif direction == "up":
+        ship_y -= speed
 
-print(abs(ship_x * ship_y))
+print(ship_x * ship_y)
+
+ship_x, ship_y = 0, 0
+aim = 0
+for route in dive_route:
+    direction, speed = route
+    if direction == "forward":
+        ship_x += speed
+        ship_y += aim * speed
+    elif direction == "down":
+        aim += speed
+    elif direction == "up":
+        aim -= speed
+
+print(ship_x * ship_y)
