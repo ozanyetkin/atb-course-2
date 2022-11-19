@@ -63,12 +63,11 @@ def life_support(support_type, position=0, binary_list=binary_data):
         else:
             finder = 0 if common == 1 else 1
     binary_updated = []
-    for binary in binary_updated:
+    for binary in binary_list:
         if int(binary[position]) == finder:
             binary_updated.append(binary)
     binary_list = binary_updated
     position += 1
     return life_support(support_type, position, binary_list)
 
-print(life_support(True))
-print(life_support(False))
+print(binary_to_decimal(life_support(True)) * binary_to_decimal(life_support(False)))
