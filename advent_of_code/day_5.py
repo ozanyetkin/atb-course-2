@@ -46,4 +46,63 @@ print(np.count_nonzero(lines_map > 1))
 fig, ax = plt.subplots()
 ax.imshow(lines_map)
 
-plt.show()
+plt.savefig("./outputs/day5_part1.png")
+
+for diagonal_line in diagonal_lines.values():
+    if (
+        diagonal_line["start"]["x"] < diagonal_line["end"]["x"]
+        and diagonal_line["start"]["y"] < diagonal_line["end"]["y"]
+    ):
+        for i, j in zip(
+            range(
+                diagonal_line["start"]["x"],
+                diagonal_line["end"]["x"] + 1,
+            ),
+            range(
+                diagonal_line["start"]["y"],
+                diagonal_line["end"]["y"] + 1,
+            ),
+        ):
+            lines_map[i][j] += 1
+    elif (
+        diagonal_line["start"]["x"] > diagonal_line["end"]["x"]
+        and diagonal_line["start"]["y"] < diagonal_line["end"]["y"]
+    ):
+        for i, j in zip(
+            range(diagonal_line["start"]["x"], diagonal_line["end"]["x"] - 1, -1),
+            range(
+                diagonal_line["start"]["y"],
+                diagonal_line["end"]["y"] + 1,
+            ),
+        ):
+            lines_map[i][j] += 1
+    elif (
+        diagonal_line["start"]["x"] > diagonal_line["end"]["x"]
+        and diagonal_line["start"]["y"] > diagonal_line["end"]["y"]
+    ):
+        for i, j in zip(
+            range(diagonal_line["start"]["x"], diagonal_line["end"]["x"] - 1, -1),
+            range(diagonal_line["start"]["y"], diagonal_line["end"]["y"] - 1, -1),
+        ):
+            lines_map[i][j] += 1
+    elif (
+        diagonal_line["start"]["x"] < diagonal_line["end"]["x"]
+        and diagonal_line["start"]["y"] > diagonal_line["end"]["y"]
+    ):
+        for i, j in zip(
+            range(
+                diagonal_line["start"]["x"],
+                diagonal_line["end"]["x"] + 1,
+            ),
+            range(diagonal_line["start"]["y"], diagonal_line["end"]["y"] - 1, -1),
+        ):
+            lines_map[i][j] += 1
+    else:
+        print("Something fucked up")
+
+print(np.count_nonzero(lines_map > 1))
+
+fig, ax = plt.subplots()
+ax.imshow(lines_map)
+
+plt.savefig("./outputs/day5_part2.png")
