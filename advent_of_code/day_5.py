@@ -53,7 +53,7 @@ for diagonal_line in diagonal_lines.values():
         diagonal_line["start"]["x"] < diagonal_line["end"]["x"]
         and diagonal_line["start"]["y"] < diagonal_line["end"]["y"]
     ):
-        for i, j in zip(
+        for j, i in zip(
             range(
                 diagonal_line["start"]["x"],
                 diagonal_line["end"]["x"] + 1,
@@ -68,7 +68,7 @@ for diagonal_line in diagonal_lines.values():
         diagonal_line["start"]["x"] > diagonal_line["end"]["x"]
         and diagonal_line["start"]["y"] < diagonal_line["end"]["y"]
     ):
-        for i, j in zip(
+        for j, i in zip(
             range(diagonal_line["start"]["x"], diagonal_line["end"]["x"] - 1, -1),
             range(
                 diagonal_line["start"]["y"],
@@ -80,7 +80,7 @@ for diagonal_line in diagonal_lines.values():
         diagonal_line["start"]["x"] > diagonal_line["end"]["x"]
         and diagonal_line["start"]["y"] > diagonal_line["end"]["y"]
     ):
-        for i, j in zip(
+        for j, i in zip(
             range(diagonal_line["start"]["x"], diagonal_line["end"]["x"] - 1, -1),
             range(diagonal_line["start"]["y"], diagonal_line["end"]["y"] - 1, -1),
         ):
@@ -89,7 +89,7 @@ for diagonal_line in diagonal_lines.values():
         diagonal_line["start"]["x"] < diagonal_line["end"]["x"]
         and diagonal_line["start"]["y"] > diagonal_line["end"]["y"]
     ):
-        for i, j in zip(
+        for j, i in zip(
             range(
                 diagonal_line["start"]["x"],
                 diagonal_line["end"]["x"] + 1,

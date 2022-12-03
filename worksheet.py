@@ -1,2 +1,2 @@
-for i in range(6, 0, -1):
-    print(i)
+for i, j in zip(range(7, 14 + 1), range(9, 2 - 1, -1)):
+    print(i, j)
