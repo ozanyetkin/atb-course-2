@@ -50,21 +50,30 @@ def basin_finder(heights):
 basins, basins_idx = basin_finder(height_map)
 print(sum(basins) + len(basins))
 
-def grow_basin(start_i, start_j, heights, basin_path=[], checkpoints=[]):
-    if heights[start_i, start_j] == 9:
+
+def grow_basin(start_i, start_j, heights, basin_path=[], checkpoints=[], first_time=False):
+    if len(checkpoints) == 0 and first_time:
         return basin_path
 
-    if (start_i, start_j) not in basin_path:
+    if (start_i, start_j) not in basin_path and heights[start_i, start_j] != 9:
         basin_path.append((start_i, start_j))
+        neighbor_idx = neighbor_finder(start_i, start_j)
+        for n_id in neighbor_idx:
+            if heights[n_id] != 9 and n_id not in basin_path:
+                checkpoints.append(n_id)
+                first_time = True
+        for n_index in neighbor_idx:
+            n_i, n_j = n_index
+            return grow_basin(n_i, n_j, heights, basin_path, checkpoints, first_time)
     else:
-        c_i, c_j = checkpoints[-1]
-        return grow_basin(c_i, c_j, heights, basin_path)
-    
-    neighbor_idx = neighbor_finder(start_i, start_j)
-    checkpoints += neighbor_idx
-    for n_index in neighbor_idx:
-        n_i, n_j = n_index
-        return grow_basin(n_i, n_j, heights, basin_path)
+        if len(checkpoints) != 0:
+            c_i, c_j = checkpoints.pop()
+            return grow_basin(c_i, c_j, heights, basin_path, checkpoints, first_time)
 
-print(basins_idx)
-print(grow_basin(basins_idx[1][0], basins_idx[1][1], height_map))
+basin_paths = []
+for idx in basins_idx:
+    basin_paths.append(grow_basin(idx[0], idx[1], height_map, basin_path=[], checkpoints=[], first_time=False))
+
+basin_sizes = [len(path) for path in basin_paths]
+basin_sizes.sort(reverse=True)
+print(basin_sizes[0] * basin_sizes[1] * basin_sizes[2])
