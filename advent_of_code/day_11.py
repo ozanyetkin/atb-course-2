@@ -1,69 +1,101 @@
+import pandas as pd
 import numpy as np
-from collections import Counter
+import matplotlib.pyplot as plt
 
-with open("./inputs/day_11.txt") as f:
-    data = f.readlines()
+df = pd.read_table("inputs/day_11.txt", header=None, dtype=str)
 
-matrix = []
-for d in data:
-    rows = []
-    for char in d.replace("\n", ""):
-        rows.append(int(char))
-    matrix.append(rows)
+octo = []
+for row in df[0]:
+    octo.append([int(s) for s in row])
 
-octopuses = np.array(matrix)
+octo = np.array(octo)
 
-def neighbor_finder(i, j):
-    neighbor_idx = []
-    map_size_v, map_size_h = octopuses.shape
-    if i != 0:
-        neighbor_idx.append((i - 1, j))
-    if j != 0:
-        neighbor_idx.append((i, j - 1))
-    if i != map_size_v - 1:
-        neighbor_idx.append((i + 1, j))
-    if j != map_size_h - 1:
-        neighbor_idx.append((i, j + 1))
+def find_neighbor(coord):
+    neighbor_list = {
+        (coord[0] + 1, coord[1]),
+        (coord[0], coord[1] + 1),
+        (coord[0], coord[1] - 1),
+        (coord[0] - 1, coord[1]),
+        (coord[0] + 1, coord[1] + 1),
+        (coord[0] - 1, coord[1] - 1),
+        (coord[0] - 1, coord[1] + 1),
+        (coord[0] + 1, coord[1] - 1)
+    }
+    neighbors = set()
+    for n in neighbor_list:
+        if 9 >= n[0] >= 0 and 9 >= n[1] >= 0:
+            neighbors.add(n)
+    return neighbors
 
-    if i != 0 and j != map_size_h - 1:
-        neighbor_idx.append((i - 1, j + 1))
-    if i != map_size_v - 1 and j != map_size_h - 1:
-        neighbor_idx.append((i + 1, j + 1))
-    if j != 0 and i != map_size_v - 1:
-        neighbor_idx.append((i + 1, j - 1))
-    if i != 0 and j != 0:
-        neighbor_idx.append((i - 1, j - 1))
-    return neighbor_idx
+def flash_checker(array, not_flashed):
+    new_not_flashed = set()
+    for n in not_flashed:
+        flashing_neigh = 0
+        for neigh in find_neighbor(n):
+            if neigh not in not_flashed:
+                flashing_neigh += 1
+        if array[n[0], n[1]] + flashing_neigh <= 9:
+            new_not_flashed.add(n)
+    if new_not_flashed == not_flashed:
+        return not_flashed
+    return flash_checker(array, new_not_flashed)
 
-def chain_reaction(start_i, start_j, octopus_map):
-    if octopus_map[start_i, start_j] <= 9:
-        return octopus_map
-    else:
-        octopus_map[start_i, start_j] = 0
+def play(array, step):
+    flash_count = 0
+    for _ in range(step):
+        array += np.ones((10, 10), dtype=int)
+        not_flashed = set()
 
-        neighbor_ids = neighbor_finder(start_i, start_j)
-        for n_id in neighbor_ids:
-            if octopus_map[n_id[0], n_id[1]] != 0:
-                octopus_map[n_id[0], n_id[1]] += 1
+        for i in range(10):
+            for j in range(10):
+                if array[i, j] <= 9:
+                    not_flashed.add((i, j))
+        not_flashed = flash_checker(array, not_flashed)
+        next_array = np.zeros((10, 10), dtype=int)
 
-        neighbor_values = []
-        neighbor_keys = []
-        for n_id in neighbor_ids:
-            neighbor_values.append(octopus_map[n_id[0], n_id[1]])
-            neighbor_keys.append((n_id[0], n_id[1]))
+        for n in not_flashed:
+            flashing_neigh = 0
+            for neigh in find_neighbor(n):
+                if neigh not in not_flashed:
+                    flashing_neigh += 1
+            next_array[n[0], n[1]] = array[n[0], n[1]] + flashing_neigh
+
+        flash_count += 100 - len(not_flashed)
+        array = next_array
         
-        sorted_neighbor_ids = [x for _, x in sorted(zip(neighbor_values, neighbor_keys),reverse=True)]
-        try:
-            explosion_count = dict(Counter(neighbor_values))[10]
-        except KeyError:
-            explosion_count = 0
-        exploded_count = 0
+        fig, ax = plt.subplots()
+        im = ax.imshow(array)
+        plt.savefig(f"octo{_}.png")
         
-        for n_id in sorted_neighbor_ids:
-            exploded_count += 1
-            return chain_reaction(n_id[0], n_id[1], octopus_map)
+    return flash_count
 
-add_day = np.ones(octopuses.shape, dtype=int)
+print(play(octo, 100))
 
-print(octopuses + add_day * 2)
-print(chain_reaction(4, 9, octopuses + add_day * 2))
+def play_part2(array, step=1):
+    array += np.ones((10, 10), dtype=int)
+    not_flashed = set()
+
+    for i in range(10):
+        for j in range(10):
+            if array[i, j] <= 9:
+                not_flashed.add((i, j))
+    not_flashed = flash_checker(array, not_flashed)
+    next_array = np.zeros((10, 10), dtype=int)
+
+    for n in not_flashed:
+        flashing_neigh = 0
+        for neigh in find_neighbor(n):
+            if neigh not in not_flashed:
+                flashing_neigh += 1
+        next_array[n[0], n[1]] = array[n[0], n[1]] + flashing_neigh
+
+    array = next_array
+    step += 1
+    if len(not_flashed) == 0:
+        fig, ax = plt.subplots()
+        im = ax.imshow(array)
+        plt.savefig(f"octo_{step}.png")
+        return step
+    return play_part2(array, step)
+
+print(play_part2(octo))
